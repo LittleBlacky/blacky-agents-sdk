@@ -1,56 +1,51 @@
 {
   "name": "blacky-agents-sdk",
   "version": "0.1.0",
-  "description": "A TypeScript SDK for building classic LLM agent patterns.",
-  "license": "MIT",
-  "private": false,
+  "description": "A TypeScript SDK for classic agent patterns (ReAct, Plan-and-Solve, Reflection).",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "files": [
     "dist"
   ],
-  "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",
-    "build": "pnpm clean && rollup -c",
-    "dev": "rollup -c -w",
-    "typecheck": "tsc --noEmit",
-    "example:quickstart": "tsx src/examples/quickstart.ts"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:js": "rollup -c",
+    "build": "pnpm run clean && pnpm run typecheck && pnpm run build:types && pnpm run build:js"
   },
   "keywords": [
     "agents",
     "llm",
-    "sdk",
-    "typescript",
-    "react",
-    "tree-shaking"
+    "react-agent",
+    "plan-and-solve",
+    "reflection"
   ],
-  "engines": {
-    "node": ">=18"
-  },
+  "license": "MIT",
   "dependencies": {
+    "dotenv": "^17.3.1",
     "openai": "^6.25.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-commonjs": "^28.0.8",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.4",
-    "@types/node": "^25.1.0",
-    "dotenv": "^17.3.1",
+    "@types/node": "^25.3.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.50.2",
-    "rollup-plugin-dts": "^6.2.3",
-    "tsx": "^4.21.0",
+    "rollup": "^4.50.1",
+    "rollup-plugin-esbuild": "^6.2.1",
     "typescript": "~5.9.3"
-  }
+  },
+  "packageManager": "pnpm@10.17.1"
 }
