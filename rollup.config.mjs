@@ -1,52 +1,58 @@
 import path from "node:path";
-import { defineConfig } from "rollup";
-import nodeResolve from "@rollup/plugin-node-resolve";
+import { fileURLToPath } from "node:url";
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
+import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 
-const input = "src/index.ts";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const external = [
-  /^node:/,
   "openai",
-  "dotenv"
+  "dotenv",
+  /^node:/,
 ];
 
-export default defineConfig([
+export default [
   {
-    input,
-    external,
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      tryCatchDeoptimization: false
-    },
+    input: "src/index.ts",
     output: [
       {
         file: "dist/index.js",
         format: "esm",
-        sourcemap: true
+        sourcemap: true,
       },
       {
         file: "dist/index.cjs",
         format: "cjs",
         sourcemap: true,
-        exports: "named"
-      }
+        exports: "named",
+      },
     ],
+    external,
     plugins: [
       nodeResolve({ preferBuiltins: true }),
       commonjs(),
-      typescript({ tsconfig: path.resolve("tsconfig.json") }),
-      terser()
-    ]
+      typescript({
+        tsconfig: path.resolve(__dirname, "tsconfig.json"),
+        declaration: false,
+        declarationMap: false,
+        sourceMap: true,
+      }),
+      terser(),
+    ],
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      tryCatchDeoptimization: false,
+    },
   },
   {
-    input,
+    input: "src/index.ts",
+    output: [{ file: "dist/index.d.ts", format: "esm" }],
     external,
-    output: [{ file: "dist/index.d.ts", format: "es" }],
-    plugins: [dts()]
-  }
-]);
+    plugins: [dts()],
+  },
+];
