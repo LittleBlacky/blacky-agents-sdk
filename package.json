@@ -20,6 +20,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "example": "node scripts/run-example.js",
     "build:types": "tsc -p tsconfig.build.json",
     "build:js": "rollup -c",
     "build": "pnpm run clean && pnpm run typecheck && pnpm run build:types && pnpm run build:js"
@@ -51,3 +52,4 @@
   },
   "packageManager": "pnpm@10.17.1"
 }
+
