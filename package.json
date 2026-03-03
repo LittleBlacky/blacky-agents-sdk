@@ -34,7 +34,8 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^17.3.1",
-    "openai": "^6.25.0"
+    "openai": "^6.25.0",
+    "serpapi": "^2.2.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.8",
