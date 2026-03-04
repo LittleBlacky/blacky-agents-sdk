@@ -1,20 +1,8 @@
 import {LLMClient} from "../../core/llm";
-import type {AgentRunResult, AgentRuntimeOptions} from "../types";
+import type {AgentRuntimeOptions} from "../types";
 import type {LLMMessage} from "../../core/types";
-
-const createPlanSolvePrompt = (input: string) => {
-  return `
-你是一个顶级的 AI 规划专家。你的任务是将用户提出的复杂问题分解成由多个简单步骤组成的行动计划。
-请确保计划中的每个步骤都是一个独立、可执行的子任务，并且严格按照逻辑顺序排列。
-
-问题: ${input}
-
-请严格按照以下格式输出你的计划（必须包含代码块）：
-\`\`\`javascript
-["步骤1", "步骤2", "步骤3", ..., "步骤n"]
-\`\`\`
-`;
-};
+import {formatPrompt} from "../../utils";
+import {PLAN_PROMPT_TEMPLATE} from "./prompts";
 
 export class Plan {
   constructor(private readonly llm: LLMClient) {}
@@ -54,7 +42,7 @@ export class Plan {
     input: string,
     options: AgentRuntimeOptions = {},
   ): Promise<string[]> {
-    const planPrompt = createPlanSolvePrompt(input);
+    const planPrompt = formatPrompt(PLAN_PROMPT_TEMPLATE, {question: input});
     const messages: LLMMessage[] = [{role: "user", content: planPrompt}];
 
     console.log("--- 正在生成计划 ---");
