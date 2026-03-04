@@ -35,6 +35,17 @@ export class LLMClient {
   }
 
   async think(messages: LLMMessage[], temperature = 0): Promise<string> {
+    let fullText = "";
+    for await (const chunk of this.streamThink(messages, temperature)) {
+      fullText += chunk;
+    }
+    return fullText;
+  }
+
+  async *streamThink(
+    messages: LLMMessage[],
+    temperature = 0,
+  ): AsyncGenerator<string> {
     const stream = await this.client.chat.completions.create({
       model: this.model,
       messages: toChatMessages(messages),
@@ -42,12 +53,11 @@ export class LLMClient {
       stream: true,
     });
 
-    let fullText = "";
     for await (const chunk of stream) {
       const delta = chunk.choices[0]?.delta?.content ?? "";
-      fullText += delta;
+      if (delta.length > 0) {
+        yield delta;
+      }
     }
-
-    return fullText;
   }
 }
