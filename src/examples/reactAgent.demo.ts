@@ -1,4 +1,4 @@
-import {ReActAgent} from "../agent/react-agent";
+import {ReActAgent} from "../agent/react-agent/ReActAgent";
 import {LLMClient} from "../core/llm";
 import {ToolExecutor} from "../tools/ToolExecutor";
 import {search} from "../tools/builtin/search";

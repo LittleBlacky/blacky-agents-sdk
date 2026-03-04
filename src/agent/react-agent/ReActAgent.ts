@@ -1,6 +1,6 @@
-import {ToolExecutor} from "./../tools/ToolExecutor";
-import {LLMClient} from "../core/llm";
-import type {AgentRuntimeOptions} from "./types";
+import {ToolExecutor} from "../../tools/ToolExecutor";
+import {LLMClient} from "../../core/llm";
+import type {AgentRuntimeOptions} from "../types";
 
 function createReactPrompt(tools: string, question: string, history: string) {
   return `
