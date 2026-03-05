@@ -8,5 +8,5 @@ if (!fileName) {
     process.exit(1);
 }
 
-const filePath = path.join('src', 'examples', fileName);
+const filePath = path.join('examples', fileName);
 execSync(`npx tsx ${filePath}`, { stdio: 'inherit' });
