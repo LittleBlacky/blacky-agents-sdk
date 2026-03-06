@@ -36,7 +36,9 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "openai": "^6.25.0",
-    "serpapi": "^2.2.1"
+    "reflect-metadata": "^0.2.2",
+    "serpapi": "^2.2.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.8",
@@ -52,4 +54,3 @@
   },
   "packageManager": "pnpm@10.17.1"
 }
-
